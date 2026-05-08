@@ -2055,9 +2055,9 @@
                     💻 <strong>Developed by</strong> <a href="#" style="color: var(--primary); margin-left: 0.25rem;">Pragyan Shahi</a>
                 </div>
 
-                <button class="btn btn-primary" onclick="openLogin(event)" id="loginBtn">🔑 Login</button>
-                <button class="btn btn-ghost" onclick="goToDashboard(event)" id="dashboardBtn" style="display:none;">📊 Dashboard</button>
-                <button class="btn btn-ghost" onclick="logout()" id="logoutBtn" style="display:none;">👋 Logout</button>
+                <button class="btn btn-primary" onclick="openLogin(event)" id="loginBtn"><span data-translate="login">🔑 Login</span></button>
+                <button class="btn btn-ghost" onclick="goToDashboard(event)" id="dashboardBtn" style="display:none;"><span data-translate="dashboard">📊 Dashboard</span></button>
+                <button class="btn btn-ghost" onclick="logout()" id="logoutBtn" style="display:none;"><span data-translate="logout">👋 Logout</span></button>
             </div>
         </div>
     </nav>
@@ -2068,22 +2068,22 @@
         <section class="hero">
             <div class="hero-content">
                 <div class="hero-badge">
-                    ✨ Welcome to the future of AI
+                    ✨ <span data-translate="welcome">Welcome to the future of AI</span>
                 </div>
                 
-                <h1>Professional AI Tools Platform</h1>
+                <h1 data-translate="title">Professional AI Tools Platform</h1>
                 
                 <p class="hero-subtitle">
-                    Powerfull tools by <strong>Pragyan Shahi</strong>
+                    <span data-translate="subtitle">Powerfull tools by Pragyan Shahi</span>
                 </p>
                 
                 <p class="hero-description">
-                    Access cutting-edge AI capabilities without limitations. Chat, generate images, write code, summarize documents, and much more—all in one professional platform.
+                    <span data-translate="description">Access cutting-edge AI capabilities without limitations. Chat, generate images, write code, summarize documents, and much more—all in one professional platform.</span>
                 </p>
 
                 <div class="hero-cta">
                     <button class="btn btn-primary btn-lg" onclick="goToTools(event)">
-                        🚀 Try AI Tools Now
+                        🚀 <span data-translate="explore_tools">Try AI Tools Now</span>
                     </button>
                     <button class="btn btn-secondary btn-lg" onclick="scrollToFeatures(event)">
                         ✨ Explore Features
@@ -2124,22 +2124,22 @@
                 <div class="tools-grid">
                     <div class="tool-card">
                         <div class="tool-icon">💬</div>
-                        <h3>AI Chatbot</h3>
-                        <p>Engage in intelligent conversations powered by advanced language models. Get instant answers, write content, and solve problems.</p>
+                        <h3 data-translate="ai_chat">AI Chat Assistant</h3>
+                        <p data-translate="ai_chat_desc">Engage in intelligent conversations powered by advanced language models. Get instant answers, write content, and solve problems.</p>
                         <a href="#" class="tool-link" onclick="selectTool('chat'); goToTools(event);">Launch Tool →</a>
                     </div>
 
                     <div class="tool-card">
                         <div class="tool-icon">🎨</div>
-                        <h3>Image Generator</h3>
-                        <p>Create stunning, unique images from text descriptions. Perfect for designs, marketing, and creative projects.</p>
+                        <h3 data-translate="image_gen">Image Generator</h3>
+                        <p data-translate="image_gen_desc">Create stunning, unique images from text descriptions. Perfect for designs, marketing, and creative projects.</p>
                         <a href="#" class="tool-link" onclick="selectTool('image'); goToTools(event);">Launch Tool →</a>
                     </div>
 
                     <div class="tool-card">
                         <div class="tool-icon">💻</div>
-                        <h3>Code Assistant</h3>
-                        <p>Get intelligent coding help for PHP, Python, JavaScript, SQL, and more. Debug, optimize, and learn best practices.</p>
+                        <h3 data-translate="code_assist">Code Assistant</h3>
+                        <p data-translate="code_assist_desc">Get intelligent coding help for PHP, Python, JavaScript, SQL, and more. Debug, optimize, and learn best practices.</p>
                         <a href="#" class="tool-link" onclick="selectTool('code'); goToTools(event);">Launch Tool →</a>
                     </div>
 
@@ -2152,8 +2152,8 @@
 
                     <div class="tool-card">
                         <div class="tool-icon">🌍</div>
-                        <h3>Multi-Language Translator</h3>
-                        <p>Translate text between 50+ languages instantly. Support for all major world languages with high accuracy.</p>
+                        <h3 data-translate="translator">Multi-Language Translator</h3>
+                        <p data-translate="translator_desc">Translate text between 50+ languages instantly. Support for all major world languages with high accuracy.</p>
                         <a href="#" class="tool-link" onclick="selectTool('translate'); goToTools(event);">Launch Tool →</a>
                     </div>
 
@@ -2171,8 +2171,8 @@
         <section class="section" id="featuresSection">
             <div class="container">
                 <div class="section-header">
-                    <h2>🌟 Why Choose Our Platform?</h2>
-                    <p>Everything you need in one professional AI tools platform</p>
+                    <h2 data-translate="features">🌟 Why Choose Us?</h2>
+                    <p data-translate="features_desc">Everything you need in one professional AI tools platform</p>
                 </div>
 
                 <div class="features-grid">
@@ -2185,8 +2185,8 @@
                         <p>Your data is encrypted and protected with enterprise-grade security</p>
                     </div>
                     <div class="feature-item">
-                        <h3>💰 100% Free</h3>
-                        <p>All tools available without cost. No hidden fees or subscriptions</p>
+                        <h3 data-translate="free">💰 Completely Free</h3>
+                        <p data-translate="free_desc">All tools available without cost. No hidden fees or subscriptions</p>
                     </div>
                     <div class="feature-item">
                         <h3>🌐 Global Access</h3>
@@ -3168,6 +3168,69 @@
             credits: 100
         };
 
+        // ========== TRANSLATIONS ==========
+        const translations = {
+            'en': {
+                'welcome': 'Welcome to the future of AI',
+                'title': 'Professional AI Tools Platform',
+                'subtitle': 'Powerfull tools by Pragyan Shahi',
+                'description': 'Access cutting-edge AI capabilities without limitations. Chat, generate images, write code, summarize documents, and much more—all in one professional platform.',
+                'explore_tools': 'Explore Tools',
+                'ai_chat': '💬 AI Chat Assistant',
+                'ai_chat_desc': 'Engage in intelligent conversations powered by advanced language models. Get instant answers, write content, and solve problems.',
+                'image_gen': '🖼️ Image Generator',
+                'image_gen_desc': 'Create stunning, unique images from text descriptions. Perfect for designs, marketing, and creative projects.',
+                'code_assist': '💻 Code Assistant',
+                'code_assist_desc': 'Get intelligent coding help for PHP, Python, JavaScript, SQL, and more. Debug, optimize, and learn best practices.',
+                'translator': '🌍 Multi-Language Translator',
+                'translator_desc': 'Translate text between 50+ languages instantly. Support for all major world languages with high accuracy.',
+                'features': 'Why Choose Us?',
+                'features_desc': 'Everything you need in one professional AI tools platform',
+                'free': '💰 Completely Free',
+                'free_desc': 'All tools available without cost. No hidden fees or subscriptions',
+                'login': '🔑 Login',
+                'logout': '👋 Logout',
+                'dashboard': '📊 Dashboard',
+                'lang_btn': 'नेपाली'
+            },
+            'np': {
+                'welcome': 'AI को भविष्यमा स्वागतम',
+                'title': 'पेशेवर AI उपकरण प्लेटफर्म',
+                'subtitle': 'Powerfull tools by Pragyan Shahi',
+                'description': 'सीमाहीन अत्याधुनिक AI क्षमताहरू प्रयोग गर्नुहोस्। च्याट गर्नुहोस्, छवि उत्पन्न गर्नुहोस्, कोड लेख्नुहोस्, दस्तावेज सारांश गर्नुहोस्, र बहु धेरै कुरा गर्नुहोस्—सबै एक पेशेवर प्लेटफर्ममा।',
+                'explore_tools': 'उपकरणहरू अन्वेषण गर्नुहोस्',
+                'ai_chat': '💬 AI च्याट सहायक',
+                'ai_chat_desc': 'उन्नत भाषा मोडलहरू द्वारा संचालित बुद्धिमान कुराकानी मा संलग्न हुनुहोस्। तात्कालिक उत्तर, सामग्री लेख्नुहोस्, र समस्या समाधान गर्नुहोस्।',
+                'image_gen': '🖼️ छवि जेनरेटर',
+                'image_gen_desc': 'पाठ विवरणबाट आश्चर्यजनक, अद्वितीय छवि बनाउनुहोस्। डिजाइन, मार्केटिङ र रचनात्मक परियोजनाहरूको लागि आदर्श।',
+                'code_assist': '💻 कोड सहायक',
+                'code_assist_desc': 'PHP, Python, JavaScript, SQL र अन्यको लागि बुद्धिमान कोडिङ मद्दत प्राप्त गर्नुहोस्। डिबग गर्नुहोस्, अप्टिमाइज गर्नुहोस्, र सर्वश्रेष्ठ अभ्यास सिख्नुहोस्।',
+                'translator': '🌍 बहु-भाषा अनुवादक',
+                'translator_desc': '५०+ भाषाहरूमा पाठ तात्कालिक अनुवाद गर्नुहोस्। सबै प्रमुख विश्व भाषाहरूको लागि समर्थन उच्च सटीकताको साथ।',
+                'features': 'हामीलाई किन रोज्नुहोस्?',
+                'features_desc': 'एक पेशेवर AI उपकरण प्लेटफर्ममा आवश्यक सबै कुरा',
+                'free': '💰 पूर्ण रूपमा नि:शुल्क',
+                'free_desc': 'सबै उपकरणहरू खर्च बिना उपलब्ध। कुनै गुप्त शुल्क वा सदस्यता छैन',
+                'login': '🔑 लग इन',
+                'logout': '👋 लग आउट',
+                'dashboard': '📊 ड्यासबोर्ड',
+                'lang_btn': 'English'
+            }
+        };
+
+        function applyTranslations() {
+            const lang = state.language;
+            const trans = translations[lang];
+            
+            // Update all elements with data-translate attribute
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.getAttribute('data-translate');
+                if (trans[key]) {
+                    el.textContent = trans[key];
+                }
+            });
+        }
+
         // ========== INITIALIZATION ==========
         window.addEventListener('DOMContentLoaded', () => {
             initializeApp();
@@ -3181,6 +3244,7 @@
 
             updateAuthUI();
             syncLanguage();
+            applyTranslations();
         }
 
         // ========== THEME TOGGLE ==========
@@ -3196,11 +3260,15 @@
             state.language = state.language === 'en' ? 'np' : 'en';
             localStorage.setItem('language', state.language);
             syncLanguage();
+            applyTranslations();
         }
 
         function syncLanguage() {
             const btn = document.getElementById('languageBtn');
-            btn.textContent = state.language === 'en' ? 'नेपाली' : 'English';
+            if (btn) {
+                const lang = state.language;
+                btn.textContent = lang === 'en' ? 'नेपाली' : 'English';
+            }
         }
 
         // ========== NAVIGATION ==========
