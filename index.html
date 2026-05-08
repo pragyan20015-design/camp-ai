@@ -2022,6 +2022,130 @@
                 height: 500px;
             }
         }
+
+        /* ========== REVIEWS SECTION ========== */
+        .reviews-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .review-form {
+            background: var(--dark-bg-secondary);
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+        }
+
+        .review-form h3 {
+            margin-bottom: 1.5rem;
+            color: var(--text-dark);
+            font-size: 1.3rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--dark-bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            color: var(--text-dark);
+            font-family: inherit;
+            transition: border-color var(--transition-fast);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea.form-input {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .star-rating {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 2rem;
+        }
+
+        .star {
+            cursor: pointer;
+            opacity: 0.4;
+            transition: opacity var(--transition-fast);
+        }
+
+        .star:hover,
+        .star.active {
+            opacity: 1;
+        }
+
+        .reviews-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .review-card {
+            background: var(--dark-bg-secondary);
+            padding: 1.5rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .review-author {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .review-rating {
+            font-size: 1rem;
+            color: var(--warning);
+        }
+
+        .review-date {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        .review-text {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .reviews-container {
+                grid-template-columns: 1fr;
+            }
+
+            .reviews-list {
+                max-height: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -3077,7 +3201,7 @@
         </div>
 
         <div class="footer-bottom">
-            <p>Built with ❤️ for the AI community | Advanced features • Professional interface • Free forever</p>
+            <p>Built by Pragyan Shahi for the AI community | Advanced features • Professional interface • Free forever</p>
         </div>
     </footer>
 
@@ -3154,7 +3278,54 @@
         </div>
     </div>
 
+    <!-- ========== REVIEWS SECTION ========== -->
+    <section class="section" id="reviewsSection">
+        <div class="container">
+            <div class="section-header">
+                <h2>⭐ User Reviews</h2>
+                <p>See what our users think about our AI tools</p>
+            </div>
+
+            <div class="reviews-container">
+                <div class="review-form">
+                    <h3>Share Your Experience</h3>
+                    <div class="form-group">
+                        <label for="reviewName">Name</label>
+                        <input type="text" id="reviewName" class="form-input" placeholder="Your name">
+                    </div>
+                    <div class="form-group">
+                        <label for="reviewEmail">Email</label>
+                        <input type="email" id="reviewEmail" class="form-input" placeholder="Your email">
+                    </div>
+                    <div class="form-group">
+                        <label for="reviewRating">Rating</label>
+                        <div class="star-rating" id="starRating">
+                            <span class="star" data-value="1">⭐</span>
+                            <span class="star" data-value="2">⭐</span>
+                            <span class="star" data-value="3">⭐</span>
+                            <span class="star" data-value="4">⭐</span>
+                            <span class="star" data-value="5">⭐</span>
+                        </div>
+                        <input type="hidden" id="reviewRating" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="reviewText">Review</label>
+                        <textarea id="reviewText" class="form-input" placeholder="Share your thoughts..." rows="4"></textarea>
+                    </div>
+                    <button class="btn btn-primary" onclick="submitReview()">Submit Review</button>
+                </div>
+
+                <div class="reviews-list" id="reviewsList">
+                    <p style="text-align: center; color: var(--text-muted);">Loading reviews...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- ========== JAVASCRIPT ========== -->
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js"></script>
     <script>
         // ========== STATE MANAGEMENT ==========
         const state = {
@@ -3165,8 +3336,28 @@
             currentPage: 'home',
             currentTool: 'chat',
             chatHistory: [],
-            credits: 100
+            credits: 100,
+            currentRating: 0
         };
+
+        // ========== FIREBASE CONFIGURATION ==========
+        const firebaseConfig = {
+            apiKey: "AIzaSyBxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            authDomain: "camp-ai-xxxxx.firebaseapp.com",
+            projectId: "camp-ai-xxxxx",
+            storageBucket: "camp-ai-xxxxx.appspot.com",
+            messagingSenderId: "xxxxxxxxxxxxxxx",
+            appId: "1:xxxxxxxxxxxxxxx:web:xxxxxxxxxxxxxxxx"
+        };
+
+        // Initialize Firebase (only if config is valid)
+        let db = null;
+        try {
+            firebase.initializeApp(firebaseConfig);
+            db = firebase.firestore();
+        } catch (e) {
+            console.log('Firebase initialization skipped - configure credentials in code');
+        }
 
         // ========== TRANSLATIONS ==========
         const translations = {
@@ -3231,6 +3422,192 @@
             });
         }
 
+        // ========== REVIEWS HANDLING ==========
+        function initStarRating() {
+            const stars = document.querySelectorAll('.star-rating .star');
+            stars.forEach(star => {
+                star.addEventListener('click', () => {
+                    state.currentRating = star.getAttribute('data-value');
+                    document.getElementById('reviewRating').value = state.currentRating;
+                    
+                    stars.forEach((s, index) => {
+                        if (index < state.currentRating) {
+                            s.classList.add('active');
+                        } else {
+                            s.classList.remove('active');
+                        }
+                    });
+                });
+
+                star.addEventListener('mouseover', () => {
+                    const hoverValue = star.getAttribute('data-value');
+                    stars.forEach((s, index) => {
+                        if (index < hoverValue) {
+                            s.style.opacity = '1';
+                        } else {
+                            s.style.opacity = '0.4';
+                        }
+                    });
+                });
+            });
+
+            document.querySelector('.star-rating').addEventListener('mouseout', () => {
+                stars.forEach((s, index) => {
+                    if (index < state.currentRating) {
+                        s.style.opacity = '1';
+                    } else {
+                        s.style.opacity = '0.4';
+                    }
+                });
+            });
+        }
+
+        function submitReview() {
+            const name = document.getElementById('reviewName').value.trim();
+            const email = document.getElementById('reviewEmail').value.trim();
+            const rating = parseInt(document.getElementById('reviewRating').value);
+            const text = document.getElementById('reviewText').value.trim();
+
+            if (!name || !email || rating === 0 || !text) {
+                showNotification('Please fill all fields and select a rating', 'error');
+                return;
+            }
+
+            if (!db) {
+                showNotification('Firebase not configured. Reviews will be saved locally.', 'warning');
+                saveReviewLocally(name, email, rating, text);
+                return;
+            }
+
+            const review = {
+                name: name,
+                email: email,
+                rating: rating,
+                text: text,
+                timestamp: new Date(),
+                helpful: 0
+            };
+
+            db.collection('reviews').add(review)
+                .then(() => {
+                    showNotification('Review submitted successfully!', 'success');
+                    clearReviewForm();
+                    loadReviews();
+                })
+                .catch((error) => {
+                    console.error('Error submitting review:', error);
+                    saveReviewLocally(name, email, rating, text);
+                    showNotification('Review saved locally', 'info');
+                    clearReviewForm();
+                    loadReviews();
+                });
+        }
+
+        function saveReviewLocally(name, email, rating, text) {
+            let reviews = JSON.parse(localStorage.getItem('localReviews')) || [];
+            reviews.push({
+                name: name,
+                email: email,
+                rating: rating,
+                text: text,
+                timestamp: new Date().toISOString(),
+                helpful: 0,
+                local: true
+            });
+            localStorage.setItem('localReviews', JSON.stringify(reviews));
+        }
+
+        function clearReviewForm() {
+            document.getElementById('reviewName').value = '';
+            document.getElementById('reviewEmail').value = '';
+            document.getElementById('reviewText').value = '';
+            document.getElementById('reviewRating').value = '0';
+            state.currentRating = 0;
+
+            document.querySelectorAll('.star-rating .star').forEach(star => {
+                star.classList.remove('active');
+                star.style.opacity = '0.4';
+            });
+        }
+
+        function loadReviews() {
+            const reviewsList = document.getElementById('reviewsList');
+            if (!reviewsList) return;
+
+            reviewsList.innerHTML = '';
+
+            if (db) {
+                db.collection('reviews')
+                    .orderBy('timestamp', 'desc')
+                    .limit(10)
+                    .get()
+                    .then((snapshot) => {
+                        if (snapshot.empty) {
+                            displayLocalReviews();
+                        } else {
+                            snapshot.forEach((doc) => {
+                                const review = doc.data();
+                                displayReview(review);
+                            });
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Error loading reviews:', error);
+                        displayLocalReviews();
+                    });
+            } else {
+                displayLocalReviews();
+            }
+        }
+
+        function displayLocalReviews() {
+            const reviews = JSON.parse(localStorage.getItem('localReviews')) || [];
+            const reviewsList = document.getElementById('reviewsList');
+
+            if (reviews.length === 0) {
+                reviewsList.innerHTML = '<p style="text-align: center; color: var(--text-muted); padding: 2rem;">No reviews yet. Be the first to review!</p>';
+                return;
+            }
+
+            reviews.reverse().slice(0, 10).forEach(review => {
+                displayReview(review);
+            });
+        }
+
+        function displayReview(review) {
+            const reviewsList = document.getElementById('reviewsList');
+            const timestamp = review.timestamp instanceof Date 
+                ? review.timestamp 
+                : new Date(review.timestamp);
+            
+            const formattedDate = timestamp.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+
+            const reviewCard = document.createElement('div');
+            reviewCard.className = 'review-card';
+            reviewCard.innerHTML = `
+                <div class="review-header">
+                    <div>
+                        <div class="review-author">${escapeHtml(review.name)}</div>
+                        <div class="review-date">${formattedDate}</div>
+                    </div>
+                    <div class="review-rating">${'⭐'.repeat(review.rating)}</div>
+                </div>
+                <p class="review-text">${escapeHtml(review.text)}</p>
+            `;
+
+            reviewsList.appendChild(reviewCard);
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
         // ========== INITIALIZATION ==========
         window.addEventListener('DOMContentLoaded', () => {
             initializeApp();
@@ -3245,6 +3622,8 @@
             updateAuthUI();
             syncLanguage();
             applyTranslations();
+            initStarRating();
+            loadReviews();
         }
 
         // ========== THEME TOGGLE ==========
